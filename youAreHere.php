@@ -18,6 +18,12 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
+Configuration : define following variables in Localconfig.php
+$youAreHere_separator=' -> ';
+$youAreHere_topCategory='Portal';
+$youAreHere_topLink='[[Hauptseite|Wiki home]]';
+
 */
  
 $wgExtensionCredits['parserhook'][] = array(
@@ -44,16 +50,17 @@ function Magic_youAreHere( &$magicWords, $langCode ) {
  
 
 function youAreHere_Recurse($tree,$txt) {
-  global $youAreHere_Results;
+  global $youAreHere_Results,$youAreHere_separator,$youAreHere_topCategory,$youAreHere_topLink,$wgContLang;
+	$categoryText=$wgContLang->getNSText( NS_CATEGORY );
   $results=array();
   if(sizeof($tree)==0) return;
   foreach(array_keys($tree) as $item) {
-    if ($item=='Kategorie:Portal') {
-      array_push($youAreHere_Results,'[[Hauptseite|Wiki home]]'.$txt);
+    if ($item==$categoryText.':'.$youAreHere_topCategory) {
+      array_push($JHF_BreadCrumbs_Results,$youAreHere_topLink.$txt);
     } else {
-      $item1=str_replace('Kategorie:','',$item);
+      $item1=str_replace($categoryText.':','',$item);
       $item1=str_replace('_',' ',$item1);
-      youAreHere_Recurse($tree[$item],' -> [[:'.$item.'|'.$item1.']]'.$txt);
+      JHF_BreadCrumbs_Recurse($tree[$item],$youAreHere_separator.'[[:'.$item.'|'.$item1.']]'.$txt);
     }
   }
 }
