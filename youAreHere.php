@@ -24,6 +24,8 @@ $youAreHere_separator=' -> ';
 $youAreHere_topCategory='Portal';
 $youAreHere_topLink='[[Hauptseite|Wiki home]]';
 
+in the wiki page : {{#youAreHere:{{FULLPAGENAME}}}}
+
 */
  
 $wgExtensionCredits['parserhook'][] = array(
@@ -56,7 +58,7 @@ function youAreHere_Recurse($tree,$txt) {
   if(sizeof($tree)==0) return;
   foreach(array_keys($tree) as $item) {
     if ($item==$categoryText.':'.$youAreHere_topCategory) {
-      array_push($JHF_BreadCrumbs_Results,$youAreHere_topLink.$txt);
+      array_push($youAreHere_BreadCrumbs_Results,$youAreHere_topLink.$txt);
     } else {
       $item1=str_replace($categoryText.':','',$item);
       $item1=str_replace('_',' ',$item1);
@@ -66,11 +68,11 @@ function youAreHere_Recurse($tree,$txt) {
 }
 
 
-function Render_youAreHere( &$parser, $param1 = '') {
+function Render_youAreHere( $parser, $pageTitle = '') {
 	// The input parameters are wikitext with templates expanded.  The output should be wikitext too
   global $youAreHere_Results;
   $youAreHere_Results=array();
-  $title=$parser->getTitle();
+  $title=Title::newFromText( $pageTitle );
   if($title->getNamespace()==NS_CATEGORY) {
     youAreHere_Recurse($title->getParentCategoryTree(),' -> [[:'.$title->getFullText().'|'.$title->getText().']]');
   } else {
