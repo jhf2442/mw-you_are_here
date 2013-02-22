@@ -58,7 +58,7 @@ function youAreHere_Recurse($tree,$txt) {
   if(sizeof($tree)==0) return;
   foreach(array_keys($tree) as $item) {
     if ($item==$categoryText.':'.$youAreHere_topCategory) {
-      array_push($youAreHere_BreadCrumbs_Results,$youAreHere_topLink.$txt);
+      array_push($youAreHere_Results,$youAreHere_topLink.$txt);
     } else {
       $item1=str_replace($categoryText.':','',$item);
       $item1=str_replace('_',' ',$item1);
