@@ -60,7 +60,7 @@ function youAreHere_Recurse($tree,$txt) {
     } else {
       $item1=str_replace($categoryText.':','',$item);
       $item1=str_replace('_',' ',$item1);
-      JHF_BreadCrumbs_Recurse($tree[$item],$youAreHere_separator.'[[:'.$item.'|'.$item1.']]'.$txt);
+      youAreHere_Recurse($tree[$item],$youAreHere_separator.'[[:'.$item.'|'.$item1.']]'.$txt);
     }
   }
 }
